@@ -1,5 +1,4 @@
 import argparse
-import os
 import socket
 import math
 
@@ -25,9 +24,7 @@ def get_args():
 
 args = get_args()
 
-file_path = os.path.abspath(args.filename)
-
-file = open(file_path, "rb")
+file = open(args.filename, "rb")
 file_data = file.read()
 file.close()
 

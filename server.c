@@ -10,7 +10,6 @@
 
 #define MAX_PENDING_CONN_QUEUE_LENGTH 10
 #define MAX_BYTES_FOR_FILE_SIZE 2
-#define MAX_BYTES_FOR_FILE_LENGTH 1024
 
 int main(int argc, char const* argv[]){
   // Handle command-line args
@@ -66,7 +65,7 @@ int main(int argc, char const* argv[]){
       unsigned char header_buffer[MAX_BYTES_FOR_FILE_SIZE + 1];
       if (read(connected_socket, header_buffer, MAX_BYTES_FOR_FILE_SIZE + 1) < 0) { // +1 for the 'last packet' flag
         perror("read");
-        continue;
+        break;
       }
 
       int data_size = 0;
@@ -82,12 +81,12 @@ int main(int argc, char const* argv[]){
 
       if (read(connected_socket, data_buffer, data_size) < 0) { // +1 for the 'last packet' flag
         perror("read");
-        continue;
+        break;
       }
 
       if (write(data_fd, data_buffer, data_size) < 0) {
         perror("write");
-        continue;
+        break;
       }
 
       if (last_packet) {
